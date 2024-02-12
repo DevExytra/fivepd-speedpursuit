@@ -1,27 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using FivePD.API;
-using FivePD.API.Utils;
 
 namespace SpeedPursuit
 {
-    [CalloutProperties("Speed Pursuit", "ERLS Team", "1.1")]
+    [CalloutProperties("Speed Pursuit", "ERLS Team", "1.2")]
     public class SpeedPursuit : Callout
     {
+        private static Random _rnd = new Random();
         private Vehicle _car;
-        private Ped _player;
         private Ped _driver;
         private Ped _driver2;
-        private Random _random = new Random();
 
         public SpeedPursuit()
         {
-            float offsetX = _random.Next(100, 700);
-            float offsetY = _random.Next(100, 700);
+            float offsetX = _rnd.Next(100, 700);
+            float offsetY = _rnd.Next(100, 700);
             InitInfo(World.GetNextPositionOnStreet(Game.PlayerPed.GetOffsetPosition(new Vector3(offsetX, offsetY, 0))));
             ShortName = "High Speed Pursuit";
             CalloutDescription = "Speed";
@@ -41,7 +38,7 @@ namespace SpeedPursuit
                 VehicleHash.ItaliGTB2,
                 VehicleHash.Zentorno
             };
-            return vehicle[_random.Next(vehicle.Count)];
+            return vehicle[_rnd.Next(vehicle.Count)];
         }
 
         // List of random suspects to get for that callout
@@ -60,7 +57,7 @@ namespace SpeedPursuit
                 PedHash.OldMan2,
                 PedHash.Beach02AMY
             };
-            return ped[_random.Next(ped.Count)];
+            return ped[_rnd.Next(ped.Count)];
         }
 
         // List of random shooting suspects
@@ -79,7 +76,7 @@ namespace SpeedPursuit
                 PedHash.Stripper01SFY,
                 PedHash.FibSec01SMM
             };
-            return ped[_random.Next(ped.Count)];
+            return ped[_rnd.Next(ped.Count)];
         }
 
         private WeaponHash GetRandomWeapon()
@@ -88,7 +85,7 @@ namespace SpeedPursuit
             {
                 WeaponHash.APPistol
             };
-            return weapon[_random.Next(weapon.Count)];
+            return weapon[_rnd.Next(weapon.Count)];
         }
 
         // Main Event
@@ -150,18 +147,18 @@ namespace SpeedPursuit
             }
         }
 
-        static bool RandomizeChance(double probability)
+        private static bool RandomizeChance(double probability)
         {
-            Random random = new Random();
-            double randomNumber = random.NextDouble();
+            double randomNumber = _rnd.NextDouble();
             return randomNumber < probability;
         }
 
         // OnAccept Init
-        public async override Task OnAccept()
+        public  override Task OnAccept()
         {
             InitBlip();
             UpdateData();
+            return base.OnAccept();
         }
 
         // OnCancelAfter method
@@ -171,7 +168,7 @@ namespace SpeedPursuit
 
             try
             {
-                if (!_driver.IsAlive && !_driver2.IsAlive || _driver.IsCuffed && _driver2.IsCuffed) return;
+                if (_driver == null || (_driver2 == null || !_driver2.IsAlive && !_driver.IsAlive) || _driver.IsCuffed && (_driver2 == null || _driver2.IsCuffed)) return;
                 // Clears Suspect 1
                 _driver.Task.WanderAround();
                 _driver.AlwaysKeepTask = false;
@@ -197,22 +194,26 @@ namespace SpeedPursuit
             base.OnCancelBefore();
             try
             {
+                if (_driver == null || (_driver2 == null || !_driver2.IsAlive && !_driver.IsAlive) || _driver.IsCuffed && (_driver2 == null || _driver2.IsCuffed))
+                    return;
+
                 // Clears suspect 1
-                if (!_driver.IsAlive && !_driver2.IsAlive || _driver.IsCuffed && _driver2.IsCuffed) return;
                 _driver.Task.WanderAround();
                 _driver.AlwaysKeepTask = false;
                 _driver.BlockPermanentEvents = false;
-                
+
                 // Clears suspect 2
-                _driver2.Task.WanderAround();
-                _driver2.AlwaysKeepTask = false;
-                _driver2.BlockPermanentEvents = false;
+                if (_driver2 != null)
+                {
+                    _driver2.Task.WanderAround();
+                    _driver2.AlwaysKeepTask = false;
+                    _driver2.BlockPermanentEvents = false;
+                }
             }
             catch
             {
                 EndCallout();
             }
-
         }
     }
 }
