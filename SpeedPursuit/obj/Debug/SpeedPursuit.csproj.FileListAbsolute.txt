@@ -1,0 +1,11 @@
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\bin\Debug\CitizenFX.Core.Client.dll
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\bin\Debug\FivePD.net.dll
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\bin\Debug\CitizenFX.Core.Client.xml
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\bin\Debug\FivePD.net.xml
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\obj\Debug\SpeedPursuit.csproj.AssemblyReference.cache
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\obj\Debug\SpeedPursuit.csproj.CoreCompileInputs.cache
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\obj\Debug\SpeedPursuit.csproj.CopyComplete
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\bin\Debug\SpeedPursuit.net.dll
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\bin\Debug\SpeedPursuit.net.pdb
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\obj\Debug\SpeedPursuit.net.dll
+C:\Users\Maurice\RiderProjects\SpeedPursuit\SpeedPursuit\obj\Debug\SpeedPursuit.net.pdb
